@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PISTOLERO</title>
+    <title>Juego en HTML</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,7 +17,7 @@
 </head>
 <body>
     <h1>Bienvenido al juego</h1>
-    <button onclick="startGame()">Entrar al Juego</button>
+    <button id="startButton" onclick="startGame()">Entrar al Juego</button>
     
     <div id="gameArea" class="hidden">
         <p id="bulletCount">Balas: 0</p>
@@ -30,6 +30,9 @@
         let bala = 0;
         
         function startGame() {
+            // Oculta el botón "Entrar al Juego"
+            document.getElementById("startButton").classList.add("hidden");
+            // Muestra el área del juego
             document.getElementById("gameArea").classList.remove("hidden");
         }
         
