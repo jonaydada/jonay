@@ -24,9 +24,6 @@
     <button onclick="startGame()">Entrar al Juego</button>
     
     <div id="gameArea" class="hidden">
-        <img id="gameImage" src="imagen1.jpg" alt="Imagen del juego">
-        <br>
-        <button onclick="addBullet()">Disparar / Cambiar Imagen</button>
         <p id="bulletCount">Balas: 0</p>
         <button onclick="attack('fuerte')">Ataque Fuerte (-5 balas)</button>
         <button onclick="attack('rápido')">Ataque Rápido (-2 balas)</button>
@@ -48,10 +45,6 @@
             changeImage();
         }
         
-        function changeImage() {
-            currentImage = (currentImage + 1) % images.length;
-            document.getElementById("gameImage").src = images[currentImage];
-        }
         
         function attack(type) {
             if (type === 'fuerte' && bala >= 5) {
