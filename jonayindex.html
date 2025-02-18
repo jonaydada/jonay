@@ -38,28 +38,22 @@
     </div>
 
     <script>
-        // Lista de imágenes predefinidas (pueden ser URLs externas o rutas relativas)
-        const images = [
-            "https://via.placeholder.com/300x150?text=Prueba",
-            "https://via.placeholder.com/300x150?text=Prueba",
-            "https://via.placeholder.com/300x150?text=Prueba",
-            "https://via.placeholder.com/300x150?text=Prueba",
-            "https://via.placeholder.com/300x150?text=Prueba"
-        ];
-
-        let currentImageIndex = 0;
         let bala = 0;
 
+        function generatePlaceholderUrl(width, height, text) {
+            return `https://via.placeholder.com/${width}x${height}?text=${encodeURIComponent(text)}`;
+        }
+
         function startGame() {
-            // Mostrar la primera imagen de la lista al iniciar el juego
-            document.getElementById("gameImage").src = images[currentImageIndex];
+            const imageUrl = generatePlaceholderUrl(200, 200, "Imagen 1");
+            document.getElementById("gameImage").src = imageUrl;
             document.getElementById("gameArea").classList.remove("hidden");
         }
         
         function changeImageAndAddBullet() {
-            // Cambiar a la siguiente imagen en la lista
-            currentImageIndex = (currentImageIndex + 1) % images.length; // Vuelve al inicio después de la última imagen
-            document.getElementById("gameImage").src = images[currentImageIndex];
+            const newText = `Imagen ${Math.floor(Math.random() * 10) + 1}`; // Texto aleatorio
+            const imageUrl = generatePlaceholderUrl(200, 200, newText);
+            document.getElementById("gameImage").src = imageUrl;
             addBullet();
         }
         
@@ -72,7 +66,6 @@
             let cost = 0;
             let attackMessage = "";
 
-            // Definir el costo y el mensaje según el tipo de ataque
             if (attackType === 1) {
                 cost = 5;
                 attackMessage = "Usaste el Ataque 1.";
@@ -81,7 +74,6 @@
                 attackMessage = "Usaste el Ataque 2.";
             }
 
-            // Verificar si tienes suficientes balas
             if (bala >= cost) {
                 bala -= cost;
                 document.getElementById("bulletCount").textContent = "Balas: " + bala;
