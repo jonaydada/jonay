@@ -21,48 +21,52 @@
 </head>
 <body>
     <h1>Bienvenido al juego</h1>
-    <input type="file" id="image1Input" accept="image/*">
-    <input type="file" id="image2Input" accept="image/*">
     <button onclick="startGame()">Entrar al Juego</button>
     
     <div id="gameArea" class="hidden">
-        <img id="gameImage" src="" alt="Imagen del juego">
+        <img id="gameImage" src="imagen1.jpg" alt="Imagen del juego">
         <br>
-        <button onclick="changeImage()">Cambiar Imagen</button>
-        <button onclick="addBullet()">Sumar Bala</button>
+        <button onclick="addBullet()">Disparar / Cambiar Imagen</button>
         <p id="bulletCount">Balas: 0</p>
+        <button onclick="attack('fuerte')">Ataque Fuerte (-5 balas)</button>
+        <button onclick="attack('rápido')">Ataque Rápido (-2 balas)</button>
     </div>
 
     <script>
-        let image1 = "";
-        let image2 = "";
-        let currentImage = 1;
+        let images = ["imagen1.jpg", "imagen2.jpg"];
+        let currentImage = 0;
         let bala = 0;
         
         function startGame() {
-            const file1 = document.getElementById("image1Input").files[0];
-            const file2 = document.getElementById("image2Input").files[0];
-            
-            if (!file1 || !file2) {
-                alert("Debes seleccionar dos imágenes.");
-                return;
-            }
-            
-            image1 = URL.createObjectURL(file1);
-            image2 = URL.createObjectURL(file2);
-            document.getElementById("gameImage").src = image1;
+            document.getElementById("gameImage").src = images[currentImage];
             document.getElementById("gameArea").classList.remove("hidden");
-        }
-        
-        function changeImage() {
-            currentImage = currentImage === 1 ? 2 : 1;
-            document.getElementById("gameImage").src = currentImage === 1 ? image1 : image2;
         }
         
         function addBullet() {
             bala++;
             document.getElementById("bulletCount").textContent = "Balas: " + bala;
+            changeImage();
+        }
+        
+        function changeImage() {
+            currentImage = (currentImage + 1) % images.length;
+            document.getElementById("gameImage").src = images[currentImage];
+        }
+        
+        function attack(type) {
+            if (type === 'fuerte' && bala >= 5) {
+                bala -= 5;
+                alert("Ataque Fuerte realizado!");
+            } else if (type === 'rápido' && bala >= 2) {
+                bala -= 2;
+                alert("Ataque Rápido realizado!");
+            } else {
+                alert("No tienes suficientes balas para este ataque.");
+                return;
+            }
+            document.getElementById("bulletCount").textContent = "Balas: " + bala;
         }
     </script>
 </body>
 </html>
+
