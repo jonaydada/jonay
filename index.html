@@ -3,16 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego en HTML</title>
+    <title>PISTOLERO</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 50px;
-        }
-        img {
-            width: 200px;
-            height: 200px;
         }
         .hidden {
             display: none;
@@ -25,26 +21,22 @@
     
     <div id="gameArea" class="hidden">
         <p id="bulletCount">Balas: 0</p>
+        <button onclick="addBullet()">Acumular Bala</button>
         <button onclick="attack('fuerte')">Ataque Fuerte (-5 balas)</button>
         <button onclick="attack('rápido')">Ataque Rápido (-2 balas)</button>
     </div>
 
     <script>
-        let images = ["imagen1.jpg", "imagen2.jpg"];
-        let currentImage = 0;
         let bala = 0;
         
         function startGame() {
-            document.getElementById("gameImage").src = images[currentImage];
             document.getElementById("gameArea").classList.remove("hidden");
         }
         
         function addBullet() {
             bala++;
             document.getElementById("bulletCount").textContent = "Balas: " + bala;
-            changeImage();
         }
-        
         
         function attack(type) {
             if (type === 'fuerte' && bala >= 5) {
@@ -62,4 +54,3 @@
     </script>
 </body>
 </html>
-
