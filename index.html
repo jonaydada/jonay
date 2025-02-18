@@ -13,6 +13,11 @@
         .hidden {
             display: none;
         }
+        #attackIndicator {
+            font-size: 24px;
+            color: red;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -24,6 +29,8 @@
         <button onclick="addBullet()">Acumular Bala</button>
         <button onclick="attack('fuerte')">Ataque Fuerte (-5 balas)</button>
         <button onclick="attack('rápido')">Ataque Rápido (-2 balas)</button>
+        <!-- Indicador de ataque -->
+        <div id="attackIndicator"></div>
     </div>
 
     <script>
@@ -44,16 +51,24 @@
         function attack(type) {
             if (type === 'fuerte' && bala >= 5) {
                 bala -= 5;
-                <!-- ATACAR -->
-                document.write("ataque")
+                showAttackIndicator("*** Ataque Fuerte realizado! ***");
             } else if (type === 'rápido' && bala >= 2) {
                 bala -= 2;
-                alert("Ataque Rápido realizado!");
+                showAttackIndicator("** Ataque Rápido realizado! **");
             } else {
                 alert("No tienes suficientes balas para este ataque.");
                 return;
             }
             document.getElementById("bulletCount").textContent = "Balas: " + bala;
+        }
+
+        function showAttackIndicator(message) {
+            const indicator = document.getElementById("attackIndicator");
+            indicator.textContent = message; // Muestra el mensaje con asteriscos
+            // Opcional: Hacer que el mensaje desaparezca después de unos segundos
+            setTimeout(() => {
+                indicator.textContent = "";
+            }, 2000); // El mensaje desaparece después de 2 segundos
         }
     </script>
 </body>
