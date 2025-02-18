@@ -9,15 +9,50 @@
             font-family: Tahoma, sans-serif;
             text-align: center;
             margin: 50px;
+            background-color: #c7b78f; /* Fondo gris claro */
         }
         .hidden {
             display: none;
+        }
+        #gameArea {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+            max-width: 300px;
+            margin: 0 auto; /* Centrar el área del juego */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Espacio entre elementos */
+        }
+        h1 {
+            color: #333; /* Color de texto oscuro */
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Verde */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049; /* Verde más oscuro */
         }
         #attackIndicator {
             font-size: 12px;
             color: red;
             margin-top: 10px;
             font-family: Tahoma, sans-serif;
+            animation: fadeInOut 3s ease-in-out; /* Animación */
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
         }
     </style>
 </head>
@@ -57,7 +92,7 @@
                 bala -= 2;
                 showAttackIndicator("-2", 1000); // Dura 1 segundo
             } else {
-                showAttackIndicator("No tienes más balas", 2000); // Dura 2 segundos
+                showAttackIndicator("No tienes más balas", 3000); // Dura 3 segundos
                 return;
             }
             document.getElementById("bulletCount").textContent = "Balas: " + bala;
