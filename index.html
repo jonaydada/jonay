@@ -6,7 +6,7 @@
     <title>Juego en HTML</title>
     <style>
         body {
-            font-family: Tahoma:, sans-serif;
+            font-family: Tahoma, sans-serif;
             text-align: center;
             margin: 50px;
         }
@@ -17,7 +17,7 @@
             font-size: 12px;
             color: red;
             margin-top: 10px;
-            font-family: Tahoma:, sans-serif;
+            font-family: Tahoma, sans-serif;
         }
     </style>
 </head>
@@ -52,23 +52,23 @@
         function attack(type) {
             if (type === 'fuerte' && bala >= 1) {
                 bala -= 1;
-                showAttackIndicator("-1");
+                showAttackIndicator("-1", 1000); // Dura 1 segundo
             } else if (type === 'rápido' && bala >= 2) {
                 bala -= 2;
-                showAttackIndicator("-2");
+                showAttackIndicator("-2", 1000); // Dura 1 segundo
             } else {
-                showAttackIndicator("No tienes más balas");
+                showAttackIndicator("No tienes más balas", 2000); // Dura 2 segundos
                 return;
             }
             document.getElementById("bulletCount").textContent = "Balas: " + bala;
         }
 
-        function showAttackIndicator(message) {
-    const indicator = document.getElementById("attackIndicator");
-    indicator.textContent = message; // Muestra el mensaje con asteriscos
-    setTimeout(() => {
-        indicator.textContent = ""; // Borra el mensaje después de 500 ms
-    }, 300); // Medio segundo
+        function showAttackIndicator(message, duration) {
+            const indicator = document.getElementById("attackIndicator");
+            indicator.textContent = message; // Muestra el mensaje
+            setTimeout(() => {
+                indicator.textContent = ""; // Borra el mensaje después del tiempo especificado
+            }, duration); // Duración personalizada
         }
     </script>
 </body>
