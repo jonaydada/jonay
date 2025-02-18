@@ -38,21 +38,28 @@
     </div>
 
     <script>
-        // Imágenes predeterminadas
-        const image1 = "https://via.placeholder.com/200?text=Imagen+1";
-        const image2 = "https://via.placeholder.com/200?text=Imagen+2";
-        
-        let currentImage = 1;
+        // Lista de imágenes predefinidas (pueden ser URLs externas o rutas relativas)
+        const images = [
+            "https://via.placeholder.com/300x150?text=Prueba",
+            "https://via.placeholder.com/300x150?text=Prueba",
+            "https://via.placeholder.com/300x150?text=Prueba",
+            "https://via.placeholder.com/300x150?text=Prueba",
+            "https://via.placeholder.com/300x150?text=Prueba"
+        ];
+
+        let currentImageIndex = 0;
         let bala = 0;
 
         function startGame() {
-            document.getElementById("gameImage").src = image1;
+            // Mostrar la primera imagen de la lista al iniciar el juego
+            document.getElementById("gameImage").src = images[currentImageIndex];
             document.getElementById("gameArea").classList.remove("hidden");
         }
         
         function changeImageAndAddBullet() {
-            currentImage = currentImage === 1 ? 2 : 1;
-            document.getElementById("gameImage").src = currentImage === 1 ? image1 : image2;
+            // Cambiar a la siguiente imagen en la lista
+            currentImageIndex = (currentImageIndex + 1) % images.length; // Vuelve al inicio después de la última imagen
+            document.getElementById("gameImage").src = images[currentImageIndex];
             addBullet();
         }
         
@@ -86,4 +93,3 @@
     </script>
 </body>
 </html>
-
