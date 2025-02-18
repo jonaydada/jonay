@@ -52,12 +52,12 @@
         function attack(type) {
             if (type === 'fuerte' && bala >= 1) {
                 bala -= 1;
-                showAttackIndicator("*** Ataque Fuerte realizado! ***");
+                showAttackIndicator("-1");
             } else if (type === 'rápido' && bala >= 2) {
                 bala -= 2;
-                showAttackIndicator("** Ataque Rápido realizado! **");
+                showAttackIndicator("-2");
             } else {
-                alert("No tienes suficientes balas para este ataque.");
+                showAttackIndicator("No tienes más balas");
                 return;
             }
             document.getElementById("bulletCount").textContent = "Balas: " + bala;
@@ -68,7 +68,7 @@
     indicator.textContent = message; // Muestra el mensaje con asteriscos
     setTimeout(() => {
         indicator.textContent = ""; // Borra el mensaje después de 500 ms
-    }, 500); // Medio segundo
+    }, 300); // Medio segundo
         }
     </script>
 </body>
