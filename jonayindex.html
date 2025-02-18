@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego en HTML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        img {
+            width: 200px;
+            height: 200px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenido al juego</h1>
+    <input type="file" id="image1Input" accept="image/*">
+    <input type="file" id="image2Input" accept="image/*">
+    <button onclick="startGame()">Entrar al Juego</button>
+    
+    <div id="gameArea" class="hidden">
+        <img id="gameImage" src="" alt="Imagen del juego">
+        <br>
+        <button onclick="changeImageAndAddBullet()">Cambiar Imagen y Sumar Bala</button>
+        <p id="bulletCount">Balas: 0</p>
+        <br><br>
+        
+        <!-- Botones para realizar ataques -->
+        <button onclick="useAttack(1)">Ataque 1 (5 balas)</button>
+        <button onclick="useAttack(2)">Ataque 2 (10 balas)</button>
+        <p id="attackStatus"></p>
+    </div>
+
+    <script>
+        let image1 = "";
+        let image2 = "";
+        let currentImage = 1;
+        let bala = 0;
+
+        function startGame() {
+            const file1 = document.getElementById("image1Input").files[0];
+            const file2 = document.getElementById("image2Input").files[0];
+            
+            if (!file1 || !file2) {
+                alert("Debes seleccionar dos imágenes.");
+                return;
+            }
+            
+            image1 = URL.createObjectURL(file1);
+            image2 = URL.createObjectURL(file2);
+            document.getElementById("gameImage").src = image1;
+            document.getElementById("gameArea").classList.remove("hidden");
+        }
+        
+        function changeImageAndAddBullet() {
+            currentImage = currentImage === 1 ? 2 : 1;
+            document.getElementById("gameImage").src = currentImage === 1 ? image1 : image2;
+            addBullet();
+        }
+        
+        function addBullet() {
+            bala++;
+            document.getElementById("bulletCount").textContent = "Balas: " + bala;
+        }
+
+        function useAttack(attackType) {
+            let cost = 0;
+            let attackMessage = "";
+
+            // Definir el costo y el mensaje según el tipo de ataque
+            if (attackType === 1) {
+                cost = 5;
+                attackMessage = "Usaste el Ataque 1.";
+            } else if (attackType === 2) {
+                cost = 10;
+                attackMessage = "Usaste el Ataque 2.";
+            }
+
+            // Verificar si tienes suficientes balas
+            if (bala >= cost) {
+                bala -= cost;
+                document.getElementById("bulletCount").textContent = "Balas: " + bala;
+                document.getElementById("attackStatus").textContent = attackMessage;
+            } else {
+                document.getElementById("attackStatus").textContent = "No tienes suficientes balas para este ataque.";
+            }
+        }
+    </script>
+</body>
+</html>
