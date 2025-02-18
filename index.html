@@ -3,20 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página Gratis</title>
+    <title>Juego en HTML</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 50px;
         }
-        h1 {
-            color: blue;
+        img {
+            width: 200px;
+            height: 200px;
+        }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <h1>Bienvenido a mi página web</h1>
-    <p>Esta es una página gratuita creada con HTML.</p>
+    <h1>Bienvenido al juego</h1>
+    <input type="file" id="image1Input" accept="image/*">
+    <input type="file" id="image2Input" accept="image/*">
+    <button onclick="startGame()">Entrar al Juego</button>
+    
+    <div id="gameArea" class="hidden">
+        <img id="gameImage" src="" alt="Imagen del juego">
+        <br>
+        <button onclick="changeImage()">Cambiar Imagen</button>
+        <button onclick="addBullet()">Sumar Bala</button>
+        <p id="bulletCount">Balas: 0</p>
+    </div>
+
+    <script>
+        let image1 = "";
+        let image2 = "";
+        let currentImage = 1;
+        let bala = 0;
+        
+        function startGame() {
+            const file1 = document.getElementById("image1Input").files[0];
+            const file2 = document.getElementById("image2Input").files[0];
+            
+            if (!file1 || !file2) {
+                alert("Debes seleccionar dos imágenes.");
+                return;
+            }
+            
+            image1 = URL.createObjectURL(file1);
+            image2 = URL.createObjectURL(file2);
+            document.getElementById("gameImage").src = image1;
+            document.getElementById("gameArea").classList.remove("hidden");
+        }
+        
+        function changeImage() {
+            currentImage = currentImage === 1 ? 2 : 1;
+            document.getElementById("gameImage").src = currentImage === 1 ? image1 : image2;
+        }
+        
+        function addBullet() {
+            bala++;
+            document.getElementById("bulletCount").textContent = "Balas: " + bala;
+        }
+    </script>
 </body>
 </html>
