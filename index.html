@@ -6,7 +6,7 @@
     <title>Juego en HTML</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Tahoma:, sans-serif;
             text-align: center;
             margin: 50px;
         }
@@ -14,21 +14,22 @@
             display: none;
         }
         #attackIndicator {
-            font-size: 24px;
+            font-size: 12px;
             color: red;
-            margin-top: 20px;
+            margin-top: 10px;
+            font-family: Tahoma:, sans-serif;
         }
     </style>
 </head>
 <body>
-    <h1>Bienvenido al juego</h1>
+    <h1>PISTOLERO</h1>
     <button id="startButton" onclick="startGame()">Entrar al Juego</button>
     
     <div id="gameArea" class="hidden">
         <p id="bulletCount">Balas: 0</p>
-        <button onclick="addBullet()">Acumular Bala</button>
-        <button onclick="attack('fuerte')">Ataque Fuerte (-5 balas)</button>
-        <button onclick="attack('rápido')">Ataque Rápido (-2 balas)</button>
+        <button onclick="addBullet()">Recargar</button>
+        <button onclick="attack('fuerte')">Pistola (-1 bala)</button>
+        <button onclick="attack('rápido')">Doble Pistola (-2 balas)</button>
         <!-- Indicador de ataque -->
         <div id="attackIndicator"></div>
     </div>
@@ -49,8 +50,8 @@
         }
         
         function attack(type) {
-            if (type === 'fuerte' && bala >= 5) {
-                bala -= 5;
+            if (type === 'fuerte' && bala >= 1) {
+                bala -= 1;
                 showAttackIndicator("*** Ataque Fuerte realizado! ***");
             } else if (type === 'rápido' && bala >= 2) {
                 bala -= 2;
@@ -63,12 +64,11 @@
         }
 
         function showAttackIndicator(message) {
-            const indicator = document.getElementById("attackIndicator");
-            indicator.textContent = message; // Muestra el mensaje con asteriscos
-            // Opcional: Hacer que el mensaje desaparezca después de unos segundos
-            setTimeout(() => {
-                indicator.textContent = "";
-            }, 500); // El mensaje desaparece después de 1/2 segundos
+    const indicator = document.getElementById("attackIndicator");
+    indicator.textContent = message; // Muestra el mensaje con asteriscos
+    setTimeout(() => {
+        indicator.textContent = ""; // Borra el mensaje después de 500 ms
+    }, 500); // Medio segundo
         }
     </script>
 </body>
