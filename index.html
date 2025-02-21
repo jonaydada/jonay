@@ -3,172 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pistolero</title>
+    <title>Juego</title>
     <style>
         body {
             font-family: Tahoma, sans-serif;
             text-align: center;
-            margin: 50px;
-            background-color: #c7b78f; /* Fondo gris claro */
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, #f4a6a6 50%, #a6c7f7 50%);
         }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100%;
+        }
+
         .hidden {
             display: none;
         }
-        #menu {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
-            max-width: 300px;
-            margin: 0 auto; /* Centrar el menú */
-            display: flex;
-            flex-direction: column;
-            gap: 10px; /* Espacio entre elementos */
-        }
-        #gameArea {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
-            max-width: 300px;
-            margin: 0 auto; /* Centrar el área del juego */
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start; /* Alinea los elementos a la izquierda */
-            gap: 20px; /* Espacio entre elementos */
-        }
-        h1 {
-            color: #333; /* Color de texto oscuro */
-            margin-bottom: 20px;
-        }
+
         button {
-            padding: 10px 20px;
-            background-color: #4CAF50; /* Verde */
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
         }
+
         button:hover {
-            background-color: #45a049; /* Verde más oscuro */
+            background-color: #45a049;
         }
-        #attackIndicator {
-            font-size: 12px;
-            color: red;
-            margin-top: 10px;
-            font-family: Tahoma, sans-serif;
-            animation: fadeInOut 3s ease-in-out; /* Animación */
+
+        .menu {
+            margin-top: 20px;
         }
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
+
+        .profile-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .profile-button:hover {
+            background-color: #0056b3;
+        }
+
+        .listo-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .listo-button:hover {
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
-    <h1>PISTOLERO</h1>
 
-    <!-- Menú Principal -->
-    <div id="menu">
-        <button onclick="startGame()">Jugar</button>
-        <button onclick="showInstructions()">Instrucciones</button>
-        <button onclick="exitGame()">Salir</button>
-    </div>
+    <div class="container">
+        <!-- Página de bienvenida -->
+        <div id="welcome">
+            <button id="startGameBtn">Entrar al juego</button>
+        </div>
 
-    <!-- Área del Juego (oculta inicialmente) -->
-    <div id="gameArea" class="hidden">
-        <p id="bulletCount">Balas: 0</p>
-        <button onclick="addBullet()">Recargar</button>
-        <button onclick="attack('fuerte')">Pistola (-1 bala)</button>
-        <button onclick="attack('rápido')">Doble Pistola (-2 balas)</button>
-        <button onclick="returnToMenu()">Volver al Menú</button> <!-- Botón para volver al Menú -->
-        <!-- Indicador de ataque -->
-        <div id="attackIndicator"></div>
-    </div>
+        <!-- Menú de jugadores -->
+        <div id="playerMenu" class="hidden">
+            <div class="menu">
+                <button class="profile-button" id="player1Btn">Jugador 1</button>
+                <button class="profile-button" id="player2Btn">Jugador 2</button>
+            </div>
+        </div>
 
-    <!-- Instrucciones (ocultas inicialmente) -->
-    <div id="instructions" class="hidden">
-        <h2>Instrucciones</h2>
-        <p>1. Presiona "Recargar" para obtener balas.</p>
-        <p>2. Usa "Pistola" para disparar una bala.</p>
-        <p>3. Usa "Doble Pistola" para disparar dos balas.</p>
-        <p>4. ¡Cuidado con quedarte sin balas!</p>
-        <button onclick="hideInstructions()">Volver al Menú</button>
+        <!-- Perfil de cada jugador -->
+        <div id="player1Profile" class="hidden">
+            <h2>Jugador 1</h2>
+            <button class="listo-button" id="player1ReadyBtn">Listo</button>
+        </div>
+
+        <div id="player2Profile" class="hidden">
+            <h2>Jugador 2</h2>
+            <button class="listo-button" id="player2ReadyBtn">Listo</button>
+        </div>
     </div>
 
     <script>
-        let bala = 0;
+        // Variables de elementos
+        const startGameBtn = document.getElementById('startGameBtn');
+        const welcomeDiv = document.getElementById('welcome');
+        const playerMenuDiv = document.getElementById('playerMenu');
+        const player1Btn = document.getElementById('player1Btn');
+        const player2Btn = document.getElementById('player2Btn');
+        const player1ProfileDiv = document.getElementById('player1Profile');
+        const player2ProfileDiv = document.getElementById('player2Profile');
+        const player1ReadyBtn = document.getElementById('player1ReadyBtn');
+        const player2ReadyBtn = document.getElementById('player2ReadyBtn');
 
-        // Función para iniciar el juego
-        function startGame() {
-            // Oculta el menú
-            document.getElementById("menu").classList.add("hidden");
-            // Muestra el área del juego
-            document.getElementById("gameArea").classList.remove("hidden");
-        }
+        // Funcionalidad para mostrar el menú de jugadores
+        startGameBtn.addEventListener('click', () => {
+            welcomeDiv.classList.add('hidden');
+            playerMenuDiv.classList.remove('hidden');
+        });
 
-        // Función para mostrar las instrucciones
-        function showInstructions() {
-            // Oculta el menú
-            document.getElementById("menu").classList.add("hidden");
-            // Muestra las instrucciones
-            document.getElementById("instructions").classList.remove("hidden");
-        }
+        // Funcionalidad para mostrar el perfil del Jugador 1
+        player1Btn.addEventListener('click', () => {
+            playerMenuDiv.classList.add('hidden');
+            player1ProfileDiv.classList.remove('hidden');
+        });
 
-        // Función para ocultar las instrucciones y volver al menú
-        function hideInstructions() {
-            // Oculta las instrucciones
-            document.getElementById("instructions").classList.add("hidden");
-            // Muestra el menú
-            document.getElementById("menu").classList.remove("hidden");
-        }
+        // Funcionalidad para mostrar el perfil del Jugador 2
+        player2Btn.addEventListener('click', () => {
+            playerMenuDiv.classList.add('hidden');
+            player2ProfileDiv.classList.remove('hidden');
+        });
 
-        // Función para volver al menú desde el juego
-        function returnToMenu() {
-            // Oculta el área del juego
-            document.getElementById("gameArea").classList.add("hidden");
-            // Muestra el menú
-            document.getElementById("menu").classList.remove("hidden");
-            // Reinicia las balas
-            bala = 0;
-            document.getElementById("bulletCount").textContent = "Balas: " + bala;
-        }
+        // Funcionalidad de "Listo" para el Jugador 1
+        player1ReadyBtn.addEventListener('click', () => {
+            alert('Jugador 1 está listo');
+        });
 
-        // Función para salir del juego
-        function exitGame() {
-            alert("¡Gracias por jugar!");
-            // Aquí podrías redirigir a otra página o cerrar la ventana
-        }
-
-        // Funciones del juego
-        function addBullet() {
-            bala++;
-            document.getElementById("bulletCount").textContent = "Balas: " + bala;
-        }
-
-        function attack(type) {
-            if (type === 'fuerte' && bala >= 1) {
-                bala -= 1;
-                showAttackIndicator("-1", 1000); // Dura 1 segundo
-            } else if (type === 'rápido' && bala >= 2) {
-                bala -= 2;
-                showAttackIndicator("-2", 1000); // Dura 1 segundo
-            } else {
-                showAttackIndicator("No tienes más balas", 3000); // Dura 3 segundos
-                return;
-            }
-            document.getElementById("bulletCount").textContent = "Balas: " + bala;
-        }
-
-        function showAttackIndicator(message, duration) {
-            const indicator = document.getElementById("attackIndicator");
-            indicator.textContent = message; // Muestra el mensaje
-            setTimeout(() => {
-                indicator.textContent = ""; // Borra el mensaje después del tiempo especificado
-            }, duration); // Duración personalizada
-        }
+        // Funcionalidad de "Listo" para el Jugador 2
+        player2ReadyBtn.addEventListener('click', () => {
+            alert('Jugador 2 está listo');
+        });
     </script>
 </body>
 </html>
