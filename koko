@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pistolero</title>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #c7b78f; /* Fondo gris claro */
+        }
+        .hidden {
+            display: none;
+        }
+        #gameArea {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+            max-width: 300px;
+            margin: 0 auto; /* Centrar el área del juego */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Espacio entre elementos */
+        }
+        h1 {
+            color: #333; /* Color de texto oscuro */
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Verde */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049; /* Verde más oscuro */
+        }
+        #attackIndicator {
+            font-size: 12px;
+            color: red;
+            margin-top: 10px;
+            font-family: Tahoma, sans-serif;
+            animation: fadeInOut 3s ease-in-out; /* Animación */
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>PISTOLERO</h1>
+    <button id="startButton" onclick="startGame()">Entrar al Juego</button>
+    
+    <div id="gameArea" class="hidden">
+        <p id="bulletCount">Balas: 0</p>
+        <button onclick="addBullet()">Recargar</button>
+        <button onclick="attack('fuerte')">Pistola (-1 bala)</button>
+        <button onclick="attack('rápido')">Doble Pistola (-2 balas)</button>
+        <!-- Indicador de ataque -->
+        <div id="attackIndicator"></div>
+    </div>
+
+    <script>
+        let bala = 0;
+        
+        function startGame() {
+            // Oculta el botón "Entrar al Juego"
+            document.getElementById("startButton").classList.add("hidden");
+            // Muestra el área del juego
+            document.getElementById("gameArea").classList.remove("hidden");
+        }
+        
+        function addBullet() {
+            bala++;
+            document.getElementById("bulletCount").textContent = "Balas: " + bala;
+        }
+        
+        function attack(type) {
+            if (type === 'fuerte' && bala >= 1) {
+                bala -= 1;
+                showAttackIndicator("-1", 1000); // Dura 1 segundo
+            } else if (type === 'rápido' && bala >= 2) {
+                bala -= 2;
+                showAttackIndicator("-2", 1000); // Dura 1 segundo
+            } else {
+                showAttackIndicator("No tienes más balas", 3000); // Dura 3 segundos
+                return;
+            }
+            document.getElementById("bulletCount").textContent = "Balas: " + bala;
+        }
+
+        function showAttackIndicator(message, duration) {
+            const indicator = document.getElementById("attackIndicator");
+            indicator.textContent = message; // Muestra el mensaje
+            setTimeout(() => {
+                indicator.textContent = ""; // Borra el mensaje después del tiempo especificado
+            }, duration); // Duración personalizada
+        }
+    </script>
+</body>
+</html>
