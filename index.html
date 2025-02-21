@@ -3,78 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego</title>
+    <title>Juego - Salvaje Oeste</title>
     <style>
         body {
-            font-family: Tahoma, sans-serif;
+            font-family: 'Georgia', serif;
+            background-color: #d4a26a; /* Fondo beige con textura de desierto */
+            color: #6e4b3a; /* Color marrón oscuro para el texto */
             text-align: center;
             margin: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(to right, #f4a6a6 50%, #a6c7f7 50%);
+            background-image: url('https://drive.google.com/file/d/18LC6d1dqNvLwREQjY-lXupYaQY9d9xy1/view?usp=sharing'); /* Imagen de fondo de desierto o madera */
+            background-size: cover;
+            background-position: center;
+            color: #fff;
         }
-        
+
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             height: 100%;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para resaltar texto */
+        }
+
+        h1, h2 {
+            font-family: 'Rock Salt', cursive; /* Tipografía estilo western */
+            margin-bottom: 20px;
+            font-size: 36px;
+            color: #9b5e3e;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #8B4513; /* Color marrón para el botón */
+            color: white;
+            border: 2px solid #6e4b3a;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #a0522d; /* Color más claro para el hover */
+        }
+
+        .profile-button {
+            padding: 12px 25px;
+            font-size: 18px;
+            background-color: #a0522d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            transition: background-color 0.3s;
+        }
+
+        .profile-button:hover {
+            background-color: #8B4513;
+        }
+
+        .listo-button {
+            padding: 10px 25px;
+            font-size: 16px;
+            background-color: #cd853f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .listo-button:hover {
+            background-color: #a0522d;
+        }
+
+        .waiting-message {
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .dot {
+            display: inline-block;
+            animation: blink 1.5s infinite;
+        }
+
+        .dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        .dot:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        .dot:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .countdown {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #ff6347; /* Color tomate para la cuenta regresiva */
         }
 
         .hidden {
             display: none;
         }
 
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
         .menu {
             margin-top: 20px;
-        }
-
-        .profile-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px;
-        }
-
-        .profile-button:hover {
-            background-color: #0056b3;
-        }
-
-        .listo-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .listo-button:hover {
-            background-color: #218838;
+            text-align: center;
         }
     </style>
 </head>
@@ -83,6 +137,7 @@
     <div class="container">
         <!-- Página de bienvenida -->
         <div id="welcome">
+            <h1>¡Bienvenido al Salvaje Oeste!</h1>
             <button id="startGameBtn">Entrar al juego</button>
         </div>
 
@@ -98,15 +153,24 @@
         <div id="player1Profile" class="hidden">
             <h2>Jugador 1</h2>
             <button class="listo-button" id="player1ReadyBtn">Listo</button>
+            <div id="player1Waiting" class="waiting-message hidden">Esperando al otro Jugador <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>
         </div>
 
         <div id="player2Profile" class="hidden">
             <h2>Jugador 2</h2>
             <button class="listo-button" id="player2ReadyBtn">Listo</button>
+            <div id="player2Waiting" class="waiting-message hidden">Esperando al otro Jugador <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>
+        </div>
+
+        <div id="countdownDiv" class="hidden">
+            <div class="countdown" id="countdownText"></div>
         </div>
     </div>
 
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
     <script>
+        const socket = io.connect(); // Conexión con el servidor usando Socket.IO
+
         // Variables de elementos
         const startGameBtn = document.getElementById('startGameBtn');
         const welcomeDiv = document.getElementById('welcome');
@@ -117,34 +181,71 @@
         const player2ProfileDiv = document.getElementById('player2Profile');
         const player1ReadyBtn = document.getElementById('player1ReadyBtn');
         const player2ReadyBtn = document.getElementById('player2ReadyBtn');
+        const player1WaitingDiv = document.getElementById('player1Waiting');
+        const player2WaitingDiv = document.getElementById('player2Waiting');
+        const countdownDiv = document.getElementById('countdownDiv');
+        const countdownText = document.getElementById('countdownText');
 
-        // Funcionalidad para mostrar el menú de jugadores
+        let player1Ready = false;
+        let player2Ready = false;
+
+        // Funcionalidad de "Entrar al juego"
         startGameBtn.addEventListener('click', () => {
             welcomeDiv.classList.add('hidden');
             playerMenuDiv.classList.remove('hidden');
         });
 
-        // Funcionalidad para mostrar el perfil del Jugador 1
+        // Funcionalidad de "Jugador 1"
         player1Btn.addEventListener('click', () => {
+            socket.emit('join_game', 1); // Notificar al servidor que el Jugador 1 se unió
             playerMenuDiv.classList.add('hidden');
             player1ProfileDiv.classList.remove('hidden');
         });
 
-        // Funcionalidad para mostrar el perfil del Jugador 2
+        // Funcionalidad de "Jugador 2"
         player2Btn.addEventListener('click', () => {
+            socket.emit('join_game', 2); // Notificar al servidor que el Jugador 2 se unió
             playerMenuDiv.classList.add('hidden');
             player2ProfileDiv.classList.remove('hidden');
         });
 
         // Funcionalidad de "Listo" para el Jugador 1
         player1ReadyBtn.addEventListener('click', () => {
-            alert('Jugador 1 está listo');
+            player1Ready = true;
+            player1ReadyBtn.style.display = 'none';
+            player1WaitingDiv.classList.remove('hidden');
+            socket.emit('player_ready'); // Notificar al servidor que el Jugador 1 está listo
         });
 
         // Funcionalidad de "Listo" para el Jugador 2
         player2ReadyBtn.addEventListener('click', () => {
-            alert('Jugador 2 está listo');
+            player2Ready = true;
+            player2ReadyBtn.style.display = 'none';
+            player2WaitingDiv.classList.remove('hidden');
+            socket.emit('player_ready'); // Notificar al servidor que el Jugador 2 está listo
         });
+
+        // Cuando ambos jugadores estén listos, iniciar la cuenta regresiva
+        socket.on('both_ready', () => {
+            player1WaitingDiv.classList.add('hidden');
+            player2WaitingDiv.classList.add('hidden');
+            startCountdown();
+        });
+
+        // Iniciar la cuenta regresiva
+        function startCountdown() {
+            let countdown = 3;
+            countdownDiv.classList.remove('hidden');
+            const interval = setInterval(() => {
+                countdownText.textContent = `La partida comenzará en ${countdown}`;
+                countdown--;
+                if (countdown < 0) {
+                    clearInterval(interval);
+                    countdownText.textContent = '¡YA!';
+                    socket.emit('start_game'); // Notificar al servidor que la partida ha comenzado
+                }
+            }, 1000);
+        }
     </script>
 </body>
 </html>
