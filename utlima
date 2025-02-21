@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego - Salvaje Oeste</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #d4a26a;
+            color: #6e4b3a;
+            text-align: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://drive.google.com/file/d/18LC6d1dqNvLwREQjY-lXupYaQY9d9xy1/view?usp=sharing');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Juego Salvaje Oeste</h1>
+    <p>¡Prepárate para la aventura!</p>
+</body>
+</html>
