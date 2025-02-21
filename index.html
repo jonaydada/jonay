@@ -87,41 +87,6 @@
             background-color: #a0522d;
         }
 
-        .waiting-message {
-            font-size: 18px;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #ffd700;
-        }
-
-        .dot {
-            display: inline-block;
-            animation: blink 1.5s infinite;
-        }
-
-        .dot:nth-child(1) {
-            animation-delay: 0s;
-        }
-        .dot:nth-child(2) {
-            animation-delay: 0.5s;
-        }
-        .dot:nth-child(3) {
-            animation-delay: 1s;
-        }
-
-        @keyframes blink {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        .countdown {
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 20px;
-            color: #ff6347; /* Color tomate para la cuenta regresiva */
-        }
-
         .hidden {
             display: none;
         }
@@ -135,117 +100,30 @@
 <body>
 
     <div class="container">
-        <!-- Página de bienvenida -->
-        <div id="welcome">
-            <h1>¡Bienvenido al Salvaje Oeste!</h1>
-            <button id="startGameBtn">Entrar al juego</button>
-        </div>
-
-        <!-- Menú de jugadores -->
-        <div id="playerMenu" class="hidden">
-            <div class="menu">
-                <button class="profile-button" id="player1Btn">Jugador 1</button>
-                <button class="profile-button" id="player2Btn">Jugador 2</button>
-            </div>
-        </div>
-
-        <!-- Perfil de cada jugador -->
-        <div id="player1Profile" class="hidden">
-            <h2>Jugador 1</h2>
-            <button class="listo-button" id="player1ReadyBtn">Listo</button>
-            <div id="player1Waiting" class="waiting-message hidden">Esperando al otro Jugador <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>
-        </div>
-
-        <div id="player2Profile" class="hidden">
-            <h2>Jugador 2</h2>
-            <button class="listo-button" id="player2ReadyBtn">Listo</button>
-            <div id="player2Waiting" class="waiting-message hidden">Esperando al otro Jugador <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>
-        </div>
-
-        <div id="countdownDiv" class="hidden">
-            <div class="countdown" id="countdownText"></div>
+        <!-- Menú posterior al juego -->
+        <div id="postGameMenu">
+            <h1>¡Partida Terminada!</h1>
+            <button id="playAgainBtn">Jugar de Nuevo</button>
+            <button id="mainMenuBtn">Menú Principal</button>
         </div>
     </div>
 
-    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
     <script>
-        const socket = io.connect(); // Conexión con el servidor usando Socket.IO
-
         // Variables de elementos
-        const startGameBtn = document.getElementById('startGameBtn');
-        const welcomeDiv = document.getElementById('welcome');
-        const playerMenuDiv = document.getElementById('playerMenu');
-        const player1Btn = document.getElementById('player1Btn');
-        const player2Btn = document.getElementById('player2Btn');
-        const player1ProfileDiv = document.getElementById('player1Profile');
-        const player2ProfileDiv = document.getElementById('player2Profile');
-        const player1ReadyBtn = document.getElementById('player1ReadyBtn');
-        const player2ReadyBtn = document.getElementById('player2ReadyBtn');
-        const player1WaitingDiv = document.getElementById('player1Waiting');
-        const player2WaitingDiv = document.getElementById('player2Waiting');
-        const countdownDiv = document.getElementById('countdownDiv');
-        const countdownText = document.getElementById('countdownText');
+        const playAgainBtn = document.getElementById('playAgainBtn');
+        const mainMenuBtn = document.getElementById('mainMenuBtn');
 
-        let player1Ready = false;
-        let player2Ready = false;
-
-        // Funcionalidad de "Entrar al juego"
-        startGameBtn.addEventListener('click', () => {
-            welcomeDiv.classList.add('hidden');
-            playerMenuDiv.classList.remove('hidden');
+        // Funcionalidad para jugar de nuevo
+        playAgainBtn.addEventListener('click', () => {
+            alert('Comenzando una nueva partida...');
+            // Aquí puedes agregar la lógica para reiniciar el juego
         });
 
-        // Funcionalidad de "Jugador 1"
-        player1Btn.addEventListener('click', () => {
-            socket.emit('join_game', 1); // Notificar al servidor que el Jugador 1 se unió
-            playerMenuDiv.classList.add('hidden');
-            player1ProfileDiv.classList.remove('hidden');
+        // Funcionalidad para volver al menú principal
+        mainMenuBtn.addEventListener('click', () => {
+            alert('Volviendo al menú principal...');
+            // Aquí puedes agregar la lógica para regresar al menú principal
         });
-
-        // Funcionalidad de "Jugador 2"
-        player2Btn.addEventListener('click', () => {
-            socket.emit('join_game', 2); // Notificar al servidor que el Jugador 2 se unió
-            playerMenuDiv.classList.add('hidden');
-            player2ProfileDiv.classList.remove('hidden');
-        });
-
-        // Funcionalidad de "Listo" para el Jugador 1
-        player1ReadyBtn.addEventListener('click', () => {
-            player1Ready = true;
-            player1ReadyBtn.style.display = 'none';
-            player1WaitingDiv.classList.remove('hidden');
-            socket.emit('player_ready'); // Notificar al servidor que el Jugador 1 está listo
-        });
-
-        // Funcionalidad de "Listo" para el Jugador 2
-        player2ReadyBtn.addEventListener('click', () => {
-            player2Ready = true;
-            player2ReadyBtn.style.display = 'none';
-            player2WaitingDiv.classList.remove('hidden');
-            socket.emit('player_ready'); // Notificar al servidor que el Jugador 2 está listo
-        });
-
-        // Cuando ambos jugadores estén listos, iniciar la cuenta regresiva
-        socket.on('both_ready', () => {
-            player1WaitingDiv.classList.add('hidden');
-            player2WaitingDiv.classList.add('hidden');
-            startCountdown();
-        });
-
-        // Iniciar la cuenta regresiva
-        function startCountdown() {
-            let countdown = 3;
-            countdownDiv.classList.remove('hidden');
-            const interval = setInterval(() => {
-                countdownText.textContent = `La partida comenzará en ${countdown}`;
-                countdown--;
-                if (countdown < 0) {
-                    clearInterval(interval);
-                    countdownText.textContent = '¡YA!';
-                    socket.emit('start_game'); // Notificar al servidor que la partida ha comenzado
-                }
-            }, 1000);
-        }
     </script>
 </body>
 </html>
