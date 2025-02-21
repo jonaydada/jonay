@@ -3,85 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego en HTML</title>
+    <title>Juego - Salvaje Oeste</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Georgia', serif;
+            background-color: #d4a26a;
+            color: #6e4b3a;
             text-align: center;
-            margin: 50px;
-        }
-        img {
-            width: 200px;
-            height: 200px;
-        }
-        .hidden {
-            display: none;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://drive.google.com/file/d/18LC6d1dqNvLwREQjY-lXupYaQY9d9xy1/view?usp=sharing');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-    <h1>Bienvenido al juego</h1>
-    
-    <button onclick="startGame()">Entrar al Juego</button>
-    
-    <div id="gameArea" class="hidden">
-        <img id="gameImage" src="" alt="Imagen del juego">
-        <br>
-        <button onclick="changeImageAndAddBullet()">Cambiar Imagen y Sumar Bala</button>
-        <p id="bulletCount">Balas: 0</p>
-        <br><br>
-        
-        <!-- Botones para realizar ataques -->
-        <button onclick="useAttack(1)">Ataque 1 (5 balas)</button>
-        <button onclick="useAttack(2)">Ataque 2 (10 balas)</button>
-        <p id="attackStatus"></p>
-    </div>
-
-    <script>
-        let bala = 0;
-
-        function generatePlaceholderUrl(width, height, text) {
-            return `https://via.placeholder.com/${width}x${height}?text=${encodeURIComponent(text)}`;
-        }
-
-        function startGame() {
-            const imageUrl = generatePlaceholderUrl(200, 200, "Imagen 1");
-            document.getElementById("gameImage").src = imageUrl;
-            document.getElementById("gameArea").classList.remove("hidden");
-        }
-        
-        function changeImageAndAddBullet() {
-            const newText = `Imagen ${Math.floor(Math.random() * 10) + 1}`; // Texto aleatorio
-            const imageUrl = generatePlaceholderUrl(200, 200, newText);
-            document.getElementById("gameImage").src = imageUrl;
-            addBullet();
-        }
-        
-        function addBullet() {
-            bala++;
-            document.getElementById("bulletCount").textContent = "Balas: " + bala;
-        }
-
-        function useAttack(attackType) {
-            let cost = 0;
-            let attackMessage = "";
-
-            if (attackType === 1) {
-                cost = 5;
-                attackMessage = "Usaste el Ataque 1.";
-            } else if (attackType === 2) {
-                cost = 10;
-                attackMessage = "Usaste el Ataque 2.";
-            }
-
-            if (bala >= cost) {
-                bala -= cost;
-                document.getElementById("bulletCount").textContent = "Balas: " + bala;
-                document.getElementById("attackStatus").textContent = attackMessage;
-            } else {
-                document.getElementById("attackStatus").textContent = "No tienes suficientes balas para este ataque.";
-            }
-        }
-    </script>
+    <h1>Juego Salvaje Oeste</h1>
+    <p>¡Prepárate para la aventura!</p>
 </body>
 </html>
